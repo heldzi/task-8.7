@@ -1,5 +1,5 @@
 let minValue = parseInt(prompt('Минимальное знание числа для игры','0')) || 0; // функция ИЛИ. Если Nan, то 0
-let maxValue = parseInt(prompt('Максимальное знание числа для игры','100')) || 100; // функция ИЛИ. Если NaN, то 100
+let maxValue = parseInt(prompt('Максимальное знание числа для игры','100')) || 0 || 100; // функция ИЛИ. Если NaN, то 100
 (maxValue > 999) ? // Тернарный оператор. Проверяет величину
      maxValue = 999 : 
      maxValue;
@@ -17,11 +17,11 @@ const answerField = document.getElementById('answerField');
 const edin = [" ", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять"]; // Массив для единиц
 const nomer = ["одиннадцать","двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать"]; // массив для 10-19
 const desyat = [" ", " ", "двадцать","тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто"]; // массив для десятков
-const hundred = [" ", "сто","двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "девятьсот"]; // массив для сотен
-let number = Math.abs(answerNumber);
-let minus = "минус "
-function calc() { // функция для замены на текст
-    if (answerNumber===0){
+const hundred = [" ", "сто","двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", ,"восемьсот", "девятьсот"]; // массив для сотен
+let minus = "минус ";
+
+function calc() {// функция для замены на текст; 
+    if (answerNumber===0){  
         return "ноль";
     } if (answerNumber >= 1 && answerNumber <= 9){
         return edin[answerNumber];
@@ -32,17 +32,17 @@ function calc() { // функция для замены на текст
     } if (answerNumber >= 100 && answerNumber <= 999){
             if (answerNumber >= 111 && answerNumber <= 119) {
                 return (hundred[Math.floor(answerNumber/100)] + " " + nomer[answerNumber%100-11]);
-            } else return (hundred[Math.floor(answerNumber/100)]+ " " + desyat[Math.floor(answerNumber%100/10)]+ " " + edin[Math.floor(answerNumber%10)]);
+            } else{ return (hundred[Math.floor(answerNumber/100)]+ " " + desyat[Math.floor(answerNumber%100/10)]+ " " + edin[Math.floor(answerNumber%10)]); }
     } if (answerNumber <= -1 && answerNumber >= -9){
-        return minus + edin[(number)];
+        return minus + edin[(Math.abs(answerNumber))];
     } if (answerNumber <= -10 && answerNumber >= -19){
-        return minus + nomer[number-11];
+        return minus + nomer[Math.abs(answerNumber)-11];
     } if (answerNumber <= -20 && answerNumber >= -99){
-        return minus + desyat[(Math.floor(number/10))]+ " " + edin[(number%10)];
+        return minus + desyat[(Math.floor(Math.abs(answerNumber/10)))]+ " " + edin[(Math.abs(answerNumber%10))];
     } if (answerNumber <= -100 && answerNumber >= -999){
         if (answerNumber <= -111 && answerNumber >= -119) {
-            return minus + (hundred[(Math.floor(number/100))] + " " + nomer[(number%100-11)]);
-        }else return minus + (hundred[(Math.floor(number/100))]+ " " + desyat[(Math.floor(number%100/10))]+ " " + edin[(Math.floor(number%10))]); 
+            return minus + (hundred[(Math.floor(Math.abs(answerNumber)/100))] + " " + nomer[(Math.abs(answerNumber)%100-11)]);
+        }else { return minus + (hundred[(Math.floor(Math.abs(answerNumber)/100))]+ " " + desyat[(Math.floor(Math.abs(answerNumber)%100/10))]+ " " + edin[(Math.floor(Math.abs(answerNumber)%10))]); }
     }
     
 }
@@ -54,7 +54,7 @@ function answ2() { // второй вариант ответа
 }
 function answ3() { // третий вариант ответа
     (calc().length > 20) ? answerField.innerText = `Легко! Вы загадали ${answerNumber }?` : answerField.innerText = `Легко! Вы загадали ${calc() }?`;
-}
+}   
 
 orderNumberField.innerText = orderNumber;
 answ1();
@@ -126,7 +126,7 @@ document.getElementById('btnLess').addEventListener('click', function () {
                 if (txt === 0){
                     answ2();
                 } else {
-                    answ3;
+                    answ3();
                 }
             }
         }
